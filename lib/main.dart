@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'screens/splash_screen.dart';
+import 'utils/theme_provider.dart';
+import 'utils/app_theme.dart';
+import 'providers/auth_provider.dart';
+
+void main() async {
+  // Ensure Flutter bindings are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
+  // Set preferred orientations
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const BeanCropDoctorApp(),
+    ),
+  );
+}
+
+class BeanCropDoctorApp extends StatelessWidget {
+  const BeanCropDoctorApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    
+    return MaterialApp(
+      title: 'Bean Crop Doctor',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.getTheme(themeProvider.themeColor, false),
+      darkTheme: AppTheme.getTheme(themeProvider.themeColor, true),
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: const SplashScreen(),
+    );
+  }
+}
