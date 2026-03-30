@@ -33,6 +33,13 @@ This project is a Flutter-based mobile application that performs real-time objec
 - On-device inference engine
 - No external API dependency
 
+ Download Model
+
+The `models.zip` file is too large to host directly on GitHub.   
+You can download it from Google Drive here and paste it in the assets folder:
+
+[Download models.zip](https://drive.google.com/file/d/1iuoDlK_wp99qLXeZVruvzlQnzSULNPSO/view?usp=drive_link)
+
  Installation
 
 Clone the repository:
